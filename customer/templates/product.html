@@ -1,0 +1,43 @@
+{% extends 'navbar.html' %}
+
+{% block nav %}
+<h1 class="bg-info text-center">Product Details</h1>
+<div class="row mt-5 container ">
+    <div class="col">
+        <img src="{{data.image.url}}" height="80%" width="100%" alt="img">
+    </div>
+    <div class="col">
+        <ul class="list-group">
+            <li class="list-group-item">Name : <b>{{data.name}}</b></li>
+            <li class="list-group-item">Type : <b>{{data.type}}</b></li>
+            <li class="list-group-item">Description : <b>{{data.description}}</b></li>
+            <li class="list-group-item">Price : <b>{{data.price}}</b></li>
+            <li class="list-group-item">
+                <a href="{% url 'acart' data.id %}" onclick="return confirm('Add to Cart?')" class="btn btn-secondary">Add to Cart</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<div class="mx-5 my-3">
+    <h1 class="font-italics text-info mb-1">User Reviews</h1>
+    <form action="{% url 'areview' data.id %}" method="post" class="text-center bg-light rounded">
+        {%csrf_token%}
+        <table class="table table-borderless">
+            {{form.as_table}}
+        </table>
+        <button class="btn btn-success">Submit</button>
+    </form>
+    <div>
+        {% for i in review  %}
+            <div class="border-1 border border-dark mb-1">
+                <h5>{{i.review}}</h5>
+                <p class="text-end">User:{{i.user.first_name}} {{i.user.last_name}}</p>
+                <p class="text-end">{{i.date}}</p>
+            </div>
+        {%endfor%}
+
+    </div>
+</div>
+{%endblock nav%}
